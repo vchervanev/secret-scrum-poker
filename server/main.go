@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -13,5 +15,7 @@ func main() {
 
 	http.Handle("/ws", wh)
 
-	http.ListenAndServe(":8080", nil)
+	addr := fmt.Sprintf(":%s", getEnv("PORT", "8080"))
+	log.Printf("Starting server at %s...", addr)
+	log.Fatal(http.ListenAndServe(addr, nil))
 }
