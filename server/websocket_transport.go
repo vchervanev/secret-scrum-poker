@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+// WebsocketTransport is ClientTransport and ConnManager handler for websockets
 type WebsocketTransport struct {
 	conn    *websocket.Conn
 	manager ConnManager
