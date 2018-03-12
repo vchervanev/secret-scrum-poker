@@ -7,7 +7,11 @@ import (
 func main() {
 	fs := http.FileServer(http.Dir("../webapp/public"))
 	http.Handle("/", fs)
-	http.HandleFunc("/ws", wsHandler)
+
+	manager := Chat{clients: make(map[ClientTransport]int)}
+	wh := NewWebsocketHandler(&manager)
+
+	http.Handle("/ws", wh)
 
 	http.ListenAndServe(":8080", nil)
 }
