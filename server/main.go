@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	fs := http.FileServer(http.Dir("../webapp/public"))
+	fs := http.FileServer(http.Dir("../webapp/build"))
 	http.Handle("/", fs)
 
 	manager := Chat{clients: make(map[ClientTransport]int)}
