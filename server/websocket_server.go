@@ -11,15 +11,18 @@ import (
 // WebsocketHandler returns http handler to accept websocket connections
 // and wrap them into transport handlers
 type WebsocketHandler struct{
-	manager ConnManager 
+	manager ConnManager
 }
 
 // NewWebsocketHandler is WebsocketHandler constructor
 func NewWebsocketHandler(manager ConnManager) http.Handler{
 	return &WebsocketHandler{manager: manager}
 }
+func ignoreOrigin(r *http.Request) bool {
+	return true
+}
 
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{CheckOrigin: ignoreOrigin}
 
 func (wh *WebsocketHandler)ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
