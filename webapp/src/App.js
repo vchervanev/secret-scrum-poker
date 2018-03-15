@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { Provider, Subscribe } from 'unstated'
 
 import logo from './logo.svg';
-import { StateContainer } from './StateContainer'
 import apiClient from './ApiClient'
+import { ChatContainer } from './chat/Chat'
 import './App.css';
 
 class App extends Component {
@@ -20,15 +19,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div className="App-intro">
-        <Provider>
-          <Subscribe to={[StateContainer]}>
-          {
-            state => (
-              <p>Size: {state.state.messages.length}</p>
-            )
-          }
-          </Subscribe>
-        </Provider>
+          <ChatContainer />
         </div>
       </div>
     );

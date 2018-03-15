@@ -11,6 +11,10 @@ class ApiClient {
   onMessage  = (message) => {
     this.listener(message)
   }
+
+  send = message => {
+    this.ws.send(message)
+  }
 }
 
 const apiClient = new ApiClient()

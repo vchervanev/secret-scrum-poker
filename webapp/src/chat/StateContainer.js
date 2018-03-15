@@ -1,15 +1,18 @@
-// StateContainer.js
 import { Container } from 'unstated'
-class StateContainer extends Container {
+
+class ChatStateContainer extends Container {
   state = {
-    messages: ['a', 'b'],
+    messages: [
+      {id: 1, text: 'a'},
+      {id: 2, text: 'b'},
+      ],
   }
   addMessage = text => {
-    const id = this.state.messages.size
+    const id = this.state.messages.size + 1
     const messages = [...this.state.messages, {id: id, text: text}]
     this.setState({ messages })
   }
 }
 export {
-  StateContainer
+  ChatStateContainer
 }
