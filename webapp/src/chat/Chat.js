@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Provider, Subscribe } from 'unstated'
 
 import { ChatStateContainer } from './StateContainer'
+import apiClient from '../ApiClient'
 
 
-const Message = ({text}) => <li>{text}</li>
+const Message = ({text}) => <div>{text}</div>
 
 const Messages = ({messages}) => (
   <ul>
@@ -12,28 +13,55 @@ const Messages = ({messages}) => (
   </ul>
 )
 
-const SendButton = ({onClick}) => (
-  <button onClick={onClick}>Send</button>
-)
+class NewMessageEditor extends React.Component{
+  send = (e) => {
+    e.preventDefault();
+    this.props.onSend(this.input.value)
+    this.input.value = ''
+  }
 
-const NewMessageEditor = () => (
-  <div>
-    <input /><SendButton onClick={()=>alert(42)}/>
-  </div>
-)
+  render(){
+    return(
+      <form onSubmit={this.send}>
+        <input type="test" ref={(input) => this.input = input}/>
+        <input type="submit" value="Send" />
+      </form>
+    )
+  }
+}
 
-const Chat = ({state}) => (
-  <div>
-    <Messages messages={state.messages} />
-    <NewMessageEditor />
-  </div>
-)
+class Chat extends React.Component{
+  constructor(){
+    super()
+    apiClient.addListener(this.onMessage)
+  }
+
+  onMessage = ({data}) => {
+    this.props.addMessage('>> ' + data)
+  }
+
+  onSend = (message) => {
+    apiClient.send(message)
+    this.props.addMessage('<< ' + message)
+  }
+
+  render() {
+    const { state } = this.props
+    return (
+      <div>
+        <NewMessageEditor onSend={this.onSend}/>
+        <Messages messages={state.messages} />
+      </div>
+    )
+  }
+}
 
 class ChatContainer extends Component {
   render(){
+
     return <Provider>
       <Subscribe to={[ChatStateContainer]}>
-        { Chat }
+        { (container) => <Chat {...container} /> }
       </Subscribe>
     </Provider>
   }
