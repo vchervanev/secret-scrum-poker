@@ -2,14 +2,15 @@ class ApiClient {
   constructor() {
     this.ws = new WebSocket("ws://localhost:8080/ws")
     this.ws.addEventListener('message', this.onMessage)
+    this.listeners = []
   }
 
-  setListener(listener) {
-    this.listener = listener
+  addListener(listener) {
+    this.listeners.push(listener)
   }
 
   onMessage  = (message) => {
-    this.listener(message)
+    this.listeners.forEach((listener) => listener(message))
   }
 
   send = message => {
