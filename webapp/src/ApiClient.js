@@ -1,6 +1,11 @@
+const webSocketURL =
+  process.env.NODE_ENV === 'development' ?
+    `ws://${window.location.hostname}:8080/ws` :
+    `wss://${window.location.host}/ws`
+
 class ApiClient {
   constructor() {
-    this.ws = new WebSocket("ws://localhost:8080/ws")
+    this.ws = new WebSocket(webSocketURL)
     this.ws.addEventListener('message', this.onMessage)
     this.listeners = []
   }
