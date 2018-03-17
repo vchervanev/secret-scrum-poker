@@ -2,14 +2,11 @@ import { Container } from 'unstated'
 
 class ChatStateContainer extends Container {
   state = {
-    messages: [
-      {id: 1, text: 'a'},
-      {id: 2, text: 'b'},
-      ],
+    messages: [],
   }
   addMessage = text => {
-    const id = this.state.messages.size + 1
-    const messages = [...this.state.messages, {id: id, text: text}]
+    const id = this.state.messages.length + 1
+    const messages = [{id: id, text: text}, ...this.state.messages].slice(0, 10)
     this.setState({ messages })
   }
 }
