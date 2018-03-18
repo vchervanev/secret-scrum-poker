@@ -3,6 +3,7 @@ import { Provider } from 'unstated'
 
 import logo from './logo.svg';
 import { ChatContainer } from './chat/Chat'
+import { RoomContainer } from './poker'
 import './App.css';
 
 class App extends Component {
@@ -14,6 +15,7 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <div>
+          <RoomContainer />
           <ChatContainer />
         </div>
       </Provider>
