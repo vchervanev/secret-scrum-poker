@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Provider, Subscribe } from 'unstated'
+import { Subscribe } from 'unstated'
 
 import { ChatStateContainer } from './StateContainer'
 import apiClient from '../ApiClient'
@@ -59,11 +59,11 @@ class Chat extends React.Component{
 class ChatContainer extends Component {
   render(){
 
-    return <Provider>
+    return (
       <Subscribe to={[ChatStateContainer]}>
         { (container) => <Chat {...container} /> }
       </Subscribe>
-    </Provider>
+    )
   }
 }
 
