@@ -30,7 +30,7 @@ class NewMessageEditor extends React.Component {
 class Chat extends React.Component {
   constructor() {
     super()
-    apiClient.addListener(this.onMessage)
+    apiClient().addListener(this.onMessage)
   }
 
   onMessage = ({ data }) => {
@@ -38,7 +38,7 @@ class Chat extends React.Component {
   }
 
   onSend = message => {
-    apiClient.send(message)
+    apiClient().send(message)
     this.props.addMessage('<< ' + message)
   }
 

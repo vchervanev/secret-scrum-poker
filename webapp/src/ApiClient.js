@@ -23,6 +23,8 @@ class ApiClient {
   }
 }
 
-const apiClient = new ApiClient()
+let apiClientInstance = null
+
+const apiClient = () => apiClientInstance || (apiClientInstance = new ApiClient())
 
 export default apiClient
