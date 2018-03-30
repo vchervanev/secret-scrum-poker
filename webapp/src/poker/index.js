@@ -1,1 +1,1 @@
-export {default as RoomContainer} from './Room'
+export { default as RoomContainer } from './Room'

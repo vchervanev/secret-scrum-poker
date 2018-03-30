@@ -1,7 +1,7 @@
 const webSocketURL =
-  process.env.NODE_ENV === 'development' ?
-    `ws://${window.location.hostname}:8080/ws` :
-    `wss://${window.location.host}/ws`
+  process.env.NODE_ENV === 'development'
+    ? `ws://${window.location.hostname}:8080/ws`
+    : `wss://${window.location.host}/ws`
 
 class ApiClient {
   constructor() {
@@ -14,8 +14,8 @@ class ApiClient {
     this.listeners.push(listener)
   }
 
-  onMessage  = (message) => {
-    this.listeners.forEach((listener) => listener(message))
+  onMessage = message => {
+    this.listeners.forEach(listener => listener(message))
   }
 
   send = message => {

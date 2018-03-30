@@ -12,6 +12,4 @@ class RoomStateContainer extends Container {
     mode: MODE.OFFLINE,
   }
 }
-export {
-  MODE, RoomStateContainer
-}
+export { MODE, RoomStateContainer }
