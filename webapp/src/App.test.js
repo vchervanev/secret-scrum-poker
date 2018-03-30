@@ -1,9 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { shallow } from 'enzyme'
+
 import App from './App'
 
-it('renders without crashing', () => {
-  const div = document.createElement('div')
-  ReactDOM.render(<App />, div)
-  ReactDOM.unmountComponentAtNode(div)
+let appWrapper
+
+beforeEach(() => {
+  appWrapper = shallow(<App />)
+})
+
+it('renders RoomContainer', () => {
+  expect(appWrapper.find('RoomContainer').length).toEqual(1)
 })
