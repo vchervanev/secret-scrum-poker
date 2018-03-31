@@ -18,8 +18,14 @@ const Room = ({ state: { mode } }) => {
 
 class RoomContainer extends Component {
   render() {
-    return <Subscribe to={[RoomStateContainer]}>{container => <Room {...container} />}</Subscribe>
+    return <Room {...this.props} />
   }
 }
 
-export default RoomContainer
+class RoomSubscriber extends Component {
+  render() {
+    return <Subscribe to={[RoomStateContainer]}>{state => <RoomContainer {...state} />}</Subscribe>
+  }
+}
+
+export default RoomSubscriber

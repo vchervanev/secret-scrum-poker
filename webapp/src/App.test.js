@@ -10,6 +10,6 @@ beforeEach(() => {
   appWrapper = shallow(<App />)
 })
 
-it('renders RoomContainer', () => {
-  expect(appWrapper.find('RoomContainer').length).toEqual(1)
+it('renders RoomSubscriber', () => {
+  expect(appWrapper.find('RoomSubscriber').length).toEqual(1)
 })
