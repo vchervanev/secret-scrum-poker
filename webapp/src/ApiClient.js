@@ -6,17 +6,32 @@ const webSocketURL =
 class ApiClient {
   constructor() {
     this.ws = new WebSocket(webSocketURL)
-    this.ws.addEventListener('message', this.onMessage)
-    this.listeners = []
+    this.listeners = { onMessage: [], onConnect: [], onDisconnect: [] }
+
+    const wsHandlers = {
+      onMessage: message => {
+        this.listeners.onMessage.forEach(listener => listener(message))
+      },
+      onConnect: () => {
+        this.listeners.onConnect.forEach(listener => listener())
+      },
+      onDisconnect: () => {
+        this.listeners.onDisconnect.forEach(listener => listener())
+      },
+    }
+
+    this.ws.addEventListener('message', wsHandlers.onMessage)
+    this.ws.addEventListener('open', wsHandlers.onConnect)
+    this.ws.addEventListener('close', wsHandlers.onDisconnect)
   }
 
-  addListener(listener) {
-    this.listeners.push(listener)
+  addListeners({ onMessage, onConnect, onDisconnect }) {
+    onMessage && this.listeners.onMessage.push(onMessage)
+    onConnect && this.listeners.onConnect.push(onConnect)
+    onDisconnect && this.listeners.onDisconnect.push(onDisconnect)
   }
 
-  onMessage = message => {
-    this.listeners.forEach(listener => listener(message))
-  }
+  isConnected = () => this.ws.readyState === WebSocket.OPEN
 
   send = message => {
     this.ws.send(message)
@@ -28,3 +43,4 @@ let apiClientInstance = null
 const apiClient = () => apiClientInstance || (apiClientInstance = new ApiClient())
 
 export default apiClient
+export { webSocketURL }
