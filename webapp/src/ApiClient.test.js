@@ -5,11 +5,13 @@ class MockWebSocket {
     this.url = url
     this.listeners = {}
     this.sentMessages = []
+    this.readyState = MockWebSocket.OPEN
   }
 
   addEventListener = (event, listener) => (this.listeners[event] = listener)
   send = message => this.sentMessages.push(message)
 }
+MockWebSocket.OPEN = 'open'
 
 beforeEach(() => {
   global.WebSocket = MockWebSocket
@@ -24,12 +26,17 @@ describe('instance', () => {
     expect(apiClient()).toEqual(apiClient())
   })
 
-  it('uses WebSocket URL', ()=>{
-    expect(apiClient().ws.url).toEqual(webSocketURL)
+
+  it('disconnected by default', () => {
+    expect(apiClient().isConnected()).toBeFalsy()
   })
 })
 
 describe('events', () => {
+  beforeEach(() => {
+    apiClient().connect()
+  })
+
   it('calls onConnect', () => {
     const spy = jest.fn()
     const client = apiClient()
@@ -62,10 +69,22 @@ describe('events', () => {
 })
 
 describe('methods', () => {
-  it('sends message', () => {
-    const client = apiClient()
-    client.send('message')
+  let client = null
+  beforeEach(() => {
+    client = apiClient()
+    client.connect()
+  })
 
+  it('connects', () => {
+    expect(client.isConnected()).toBeTruthy()
+    })
+
+  it('uses WebSocket URL', () => {
+    expect(client.ws.url).toEqual(webSocketURL)
+  })
+
+  it('sends message', () => {
+    client.send('message')
     expect(client.ws.sentMessages).toEqual(['message'])
   })
 })

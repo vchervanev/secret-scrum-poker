@@ -5,10 +5,10 @@ const webSocketURL =
 
 class ApiClient {
   constructor() {
-    this.ws = new WebSocket(webSocketURL)
+    this.ws = null
     this.listeners = { onMessage: [], onConnect: [], onDisconnect: [] }
 
-    const wsHandlers = {
+    this.wsHandlers = {
       onMessage: message => {
         this.listeners.onMessage.forEach(listener => listener(message))
       },
@@ -19,10 +19,6 @@ class ApiClient {
         this.listeners.onDisconnect.forEach(listener => listener())
       },
     }
-
-    this.ws.addEventListener('message', wsHandlers.onMessage)
-    this.ws.addEventListener('open', wsHandlers.onConnect)
-    this.ws.addEventListener('close', wsHandlers.onDisconnect)
   }
 
   addListeners({ onMessage, onConnect, onDisconnect }) {
@@ -31,7 +27,14 @@ class ApiClient {
     onDisconnect && this.listeners.onDisconnect.push(onDisconnect)
   }
 
-  isConnected = () => this.ws.readyState === WebSocket.OPEN
+  isConnected = () => this.ws != null && this.ws.readyState === WebSocket.OPEN
+
+  connect(){
+    this.ws = new WebSocket(webSocketURL)
+    this.ws.addEventListener('message', this.wsHandlers.onMessage)
+    this.ws.addEventListener('open', this.wsHandlers.onConnect)
+    this.ws.addEventListener('close', this.wsHandlers.onDisconnect)
+  }
 
   send = message => {
     this.ws.send(message)
