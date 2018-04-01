@@ -1,13 +1,19 @@
 import React, { Component } from 'react'
-import { Subscribe } from 'unstated'
 
-import { MODE, RoomStateContainer } from './RoomState'
+import { MODE } from './RoomState'
 
+const Reconnect = ({ connect }) => (
+  <div>
+    <button onClick={connect}>connect...</button>
+  </div>
+)
 const Loading = () => <div>Loading...</div>
 const Entrance = () => <div>Create or Join</div>
 
-const Room = ({ state: { mode } }) => {
+const Room = ({ connect, state: { mode } }) => {
   if (mode === MODE.OFFLINE) {
+    return <Reconnect connect={connect} />
+  } else if (mode === MODE.CONNECTING) {
     return <Loading />
   } else if (mode === MODE.ENTER) {
     return <Entrance />
@@ -16,16 +22,4 @@ const Room = ({ state: { mode } }) => {
   }
 }
 
-class RoomContainer extends Component {
-  render() {
-    return <Room {...this.props} />
-  }
-}
-
-class RoomSubscriber extends Component {
-  render() {
-    return <Subscribe to={[RoomStateContainer]}>{state => <RoomContainer {...state} />}</Subscribe>
-  }
-}
-
-export default RoomSubscriber
+export default Room

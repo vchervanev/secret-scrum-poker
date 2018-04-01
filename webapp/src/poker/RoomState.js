@@ -24,4 +24,5 @@ class RoomStateContainer extends Container {
     },
   }
 }
-export { MODE, RoomStateContainer }
+export default RoomStateContainer
+export { MODE }

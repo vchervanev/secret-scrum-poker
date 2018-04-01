@@ -1,4 +1,4 @@
-import { MODE, RoomStateContainer } from './RoomState'
+import RoomStateContainer, { MODE } from './RoomState'
 
 describe('RoomStateContainer', () => {
   let container = null

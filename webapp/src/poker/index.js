@@ -1,1 +1,1 @@
-export { default as RoomSubscriber } from './Room'
+export { default as RoomSubscriber } from './RoomSubscriber'
