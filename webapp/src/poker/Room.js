@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { MODE } from './RoomState'
 
@@ -10,7 +10,7 @@ const Reconnect = ({ connect }) => (
 const Loading = () => <div>Loading...</div>
 const Entrance = () => <div>Create or Join</div>
 
-const Room = ({ connect, state: { mode } }) => {
+const Room = ({ actions: { connect }, state: { mode } }) => {
   if (mode === MODE.OFFLINE) {
     return <Reconnect connect={connect} />
   } else if (mode === MODE.CONNECTING) {

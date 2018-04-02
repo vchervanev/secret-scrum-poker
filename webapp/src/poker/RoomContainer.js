@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
-import { Subscribe } from 'unstated'
 
-import apiClient from '../ApiClient';
+import apiClient from '../ApiClient'
 import Room from './Room'
 
 class RoomContainer extends Component {
   constructor() {
     super()
     this.client = apiClient()
-    this.client.addListeners({ onConnect: this.onWebSocketConnection, onDisconnect: this.onWebSocketDisconnection })
+    this.client.addListeners({
+      onConnect: this.onWebSocketConnection,
+      onDisconnect: this.onWebSocketDisconnection,
+    })
   }
   connect = () => {
     this.props.stateHandlers.connecting()
@@ -21,7 +23,13 @@ class RoomContainer extends Component {
     this.props.stateHandlers.disconnect()
   }
   render() {
-    return <Room {...this.props} connect={this.connect} />
+    const props = {
+      state: this.props.state,
+      actions: {
+        connect: this.connect,
+      },
+    }
+    return <Room {...props} />
   }
 }
 
