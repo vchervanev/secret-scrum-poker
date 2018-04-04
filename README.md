@@ -1,4 +1,5 @@
-### Secret Scrum Poker 
+### Secret Scrum Poker
+[![Build Status](https://travis-ci.org/vchervanev/secret-scrum-poker.svg?branch=master)](https://travis-ci.org/vchervanev/secret-scrum-poker)
 
 * Server: golang
 * Client: React + Websockets
