@@ -9,5 +9,6 @@ matrix:
       before_script:
         - cd webapp
       script:
+        - npm install
         - npm run build
         - npm test
