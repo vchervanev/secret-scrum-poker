@@ -1,4 +1,4 @@
-import RoomStateContainer, { MODE } from './RoomState'
+import { RoomStateContainer, MODE } from '.'
 
 describe('RoomStateContainer', () => {
   let container = null
@@ -11,22 +11,32 @@ describe('RoomStateContainer', () => {
       expect(container.state.mode).toEqual(MODE.OFFLINE)
     })
   })
+
   describe('stateHandlers.connecting', () => {
     it('changes MODE to CONNECTING', () => {
       container.stateHandlers.connecting()
       expect(container.state.mode).toEqual(MODE.CONNECTING)
     })
   })
+
   describe('stateHandlers.connect', () => {
     it('changes MODE to ENTER', () => {
       container.stateHandlers.connect()
       expect(container.state.mode).toEqual(MODE.ENTER)
     })
   })
+
   describe('stateHandlers.disconnect', () => {
     it('changes MODE to OFFLINE', () => {
       container.stateHandlers.disconnect()
       expect(container.state.mode).toEqual(MODE.OFFLINE)
+    })
+  })
+
+  describe('stateHandlers.joining', () => {
+    it('changes MODE to JOINING', () => {
+      container.stateHandlers.joining()
+      expect(container.state.mode).toEqual(MODE.JOINING)
     })
   })
 })
