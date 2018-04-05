@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { MODE } from '.'
+import { MODE, Entrance } from '.'
 
 const Reconnect = ({ connect }) => (
   <div>
@@ -8,7 +8,6 @@ const Reconnect = ({ connect }) => (
   </div>
 )
 const Loading = () => <div>Loading...</div>
-const Entrance = () => <div>Create or Join</div>
 const PointsGame = () => <div>Not implemented</div>
 
 const Room = ({ actions: { connect }, state: { mode } }) => {
@@ -29,4 +28,4 @@ const Room = ({ actions: { connect }, state: { mode } }) => {
 }
 
 export default Room
-export { Reconnect, Loading, Entrance, PointsGame }
+export { Reconnect, Loading, PointsGame }
