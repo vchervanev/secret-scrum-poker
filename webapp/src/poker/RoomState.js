@@ -3,7 +3,7 @@ import { Container } from 'unstated'
 const MODE = Object.freeze({
   OFFLINE: 'OFFLINE',
   CONNECTING: 'CONNECTING',
-  ONLINE: 'ENTER',
+  ONLINE: 'ONLINE',
   JOINING: 'JOINING',
   PLAY: 'PLAY',
 })
@@ -17,7 +17,7 @@ class RoomStateContainer extends Container {
       this.setState({ mode: MODE.OFFLINE })
     },
     connect: () => {
-      this.setState({ mode: MODE.ENTER })
+      this.setState({ mode: MODE.ONLINE })
     },
     connecting: () => {
       this.setState({ mode: MODE.CONNECTING })

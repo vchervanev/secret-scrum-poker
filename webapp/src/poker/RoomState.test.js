@@ -20,9 +20,9 @@ describe('RoomStateContainer', () => {
   })
 
   describe('stateHandlers.connect', () => {
-    it('changes MODE to ENTER', () => {
+    it('changes MODE to ONLINE', () => {
       container.stateHandlers.connect()
-      expect(container.state.mode).toEqual(MODE.ENTER)
+      expect(container.state.mode).toEqual(MODE.ONLINE)
     })
   })
 
