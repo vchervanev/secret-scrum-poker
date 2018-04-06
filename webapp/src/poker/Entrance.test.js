@@ -4,14 +4,14 @@ import { shallow, mount } from 'enzyme'
 import { Entrance } from '.'
 
 describe('Entrance', () => {
+  const defaultProps = () => ({ create: jest.fn(), join: jest.fn() })
+
   const shallowRender = props => {
-    const defaultProps = { create: jest.fn(), join: jest.fn() }
-    return shallow(<Entrance {...defaultProps} {...props} />)
+    return shallow(<Entrance {...defaultProps()} {...props} />)
   }
 
   const mountComponent = props => {
-    const defaultProps = { create: jest.fn(), join: jest.fn() }
-    return mount(<Entrance {...defaultProps} {...props} />)
+    return mount(<Entrance {...defaultProps()} {...props} />)
   }
 
   it('renders join control', () => {
