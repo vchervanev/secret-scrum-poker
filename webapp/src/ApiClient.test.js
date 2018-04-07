@@ -26,7 +26,6 @@ describe('instance', () => {
     expect(apiClient()).toEqual(apiClient())
   })
 
-
   it('disconnected by default', () => {
     expect(apiClient().isConnected()).toBeFalsy()
   })
@@ -77,7 +76,7 @@ describe('methods', () => {
 
   it('connects', () => {
     expect(client.isConnected()).toBeTruthy()
-    })
+  })
 
   it('uses WebSocket URL', () => {
     expect(client.ws.url).toEqual(webSocketURL)
@@ -86,5 +85,12 @@ describe('methods', () => {
   it('sends message', () => {
     client.send('message')
     expect(client.ws.sentMessages).toEqual(['message'])
+  })
+
+  it('sends commands', () => {
+    const expectedCommand = { command: 'test-command', attrs: { value: 1 } }
+    client.command('test-command', { value: 1 })
+
+    expect(client.ws.sentMessages).toEqual([JSON.stringify(expectedCommand)])
   })
 })

@@ -29,7 +29,7 @@ class ApiClient {
 
   isConnected = () => this.ws != null && this.ws.readyState === WebSocket.OPEN
 
-  connect(){
+  connect() {
     this.ws = new WebSocket(webSocketURL)
     this.ws.addEventListener('message', this.wsHandlers.onMessage)
     this.ws.addEventListener('open', this.wsHandlers.onConnect)
@@ -38,6 +38,10 @@ class ApiClient {
 
   send = message => {
     this.ws.send(message)
+  }
+
+  command = (name, attrs = {}) => {
+    this.ws.send(JSON.stringify({ command: name, attrs: attrs }))
   }
 }
 
