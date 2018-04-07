@@ -29,6 +29,13 @@ describe('Room', () => {
     expect(wrapper.find('Entrance').length).toEqual(1)
   })
 
+  it('passes actions to Entrance when online', () => {
+    const actions = { create: jest.fn(), join: jest.fn() }
+    const wrapper = shallowRender(MODE.ONLINE, actions)
+    expect(wrapper.find('Entrance').props()).toEqual(actions)
+  })
+
+
   it('renders Loading when entering the room', () => {
     const wrapper = shallowRender(MODE.JOINING)
     expect(wrapper.find('Loading').length).toEqual(1)

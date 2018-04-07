@@ -10,11 +10,11 @@ const Reconnect = ({ connect }) => (
 const Loading = () => <div>Loading...</div>
 const PointsGame = () => <div>Not implemented</div>
 
-const Room = ({ actions: { connect }, state: { mode } }) => {
+const Room = ({ actions: { connect, create, join }, state: { mode } }) => {
   const roomComponentSelector = {
     [MODE.OFFLINE]: <Reconnect connect={connect} />,
     [MODE.CONNECTING]: <Loading />,
-    [MODE.ONLINE]: <Entrance />,
+    [MODE.ONLINE]: <Entrance create={create} join={join} />,
     [MODE.JOINING]: <Loading />,
     [MODE.PLAY]: <PointsGame />,
   }
