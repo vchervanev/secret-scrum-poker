@@ -87,10 +87,27 @@ describe('RoomContainer', () => {
   })
 
   describe('join', () => {
-    it('exists', () => {
-      shallowRender()
-        .instance()
-        .join()
+    let apiClientCommandMock
+    let stateJoiningMock
+
+    beforeEach(() => {
+      apiClientCommandMock = jest.fn()
+      apiClient.mockImplementation(() => {
+        return { addListeners: jest.fn(), command: apiClientCommandMock }
+      })
+
+      stateJoiningMock = jest.fn()
+      const wrapper = shallowRender({ stateHandlers: { joining: stateJoiningMock } })
+
+      wrapper.instance().join('123')
+    })
+
+    it('calls ApiClient.command("join")', () => {
+      expect(apiClientCommandMock).toBeCalledWith('join', { roomID: '123' })
+    })
+
+    it('changes state to Joining', () => {
+      expect(stateJoiningMock).toBeCalled()
     })
   })
 

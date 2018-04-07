@@ -21,7 +21,11 @@ class RoomContainer extends Component {
     this.props.stateHandlers.joining()
   }
 
-  join = roomID => console.log(`join room ${roomID}: not implemented`)
+  join = roomID => {
+    this.client.command('join', { roomID: roomID })
+    this.props.stateHandlers.joining()
+  }
+
   onWebSocketConnection = () => {
     this.props.stateHandlers.connect()
   }
