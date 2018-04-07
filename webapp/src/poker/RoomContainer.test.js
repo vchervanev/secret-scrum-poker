@@ -23,8 +23,13 @@ describe('RoomContainer', () => {
 
     it('passes props into Room', () => {
       const wrapper = shallowRender({ state: { mode: 'test' } })
+      const instance = wrapper.instance()
       const expectedRoomProps = {
-        actions: { connect: wrapper.instance().connect },
+        actions: {
+          connect: instance.connect,
+          create: instance.create,
+          join: instance.join,
+        },
         state: { mode: 'test' },
       }
       expect(wrapper.find('Room').props()).toEqual(expectedRoomProps)
@@ -53,6 +58,22 @@ describe('RoomContainer', () => {
 
     it('changes state to Connecting', () => {
       expect(stateConnectingMock).toBeCalled()
+    })
+  })
+
+  describe('create', () => {
+    it('exists', () => {
+      shallowRender()
+        .instance()
+        .create()
+    })
+  })
+
+  describe('join', () => {
+    it('exists', () => {
+      shallowRender()
+        .instance()
+        .join()
     })
   })
 
