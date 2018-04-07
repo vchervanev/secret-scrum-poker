@@ -2,9 +2,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import RoomContainer from './RoomContainer'
-import apiClient from '../ApiClient'
+import { apiClient } from '../api'
 
-jest.mock('../ApiClient')
+jest.mock('../api')
 apiClient.mockImplementation(() => {
   return { addListeners: jest.fn() }
 })

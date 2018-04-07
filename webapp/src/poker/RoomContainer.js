@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import apiClient from '../ApiClient'
+import { apiClient } from '../api'
 import Room from './Room'
 
 class RoomContainer extends Component {
