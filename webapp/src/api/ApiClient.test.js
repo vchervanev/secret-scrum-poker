@@ -65,6 +65,20 @@ describe('events', () => {
 
     expect(spy).toHaveBeenCalledWith('message')
   })
+
+  describe('commands', () => {
+    it('calls commands listener', () => {
+      const spy = jest.fn()
+      const command = { command: 'cmd-name', attrs: { value: 1 } }
+      const json = JSON.stringify(command)
+
+      const client = apiClient()
+      client.addListeners({ onCommand: spy })
+      client.ws.listeners.message(json)
+
+      expect(spy).toHaveBeenCalledWith(command)
+    })
+  })
 })
 
 describe('methods', () => {

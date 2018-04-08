@@ -1,3 +1,5 @@
+import { tryParseCommand } from '.'
+
 const webSocketURL =
   process.env.NODE_ENV === 'development'
     ? `ws://${window.location.hostname}:8080/ws`
@@ -6,11 +8,16 @@ const webSocketURL =
 class ApiClient {
   constructor() {
     this.ws = null
-    this.listeners = { onMessage: [], onConnect: [], onDisconnect: [] }
+    this.listeners = { onMessage: [], onConnect: [], onCommand: [], onDisconnect: [] }
 
     this.wsHandlers = {
       onMessage: message => {
         this.listeners.onMessage.forEach(listener => listener(message))
+
+        const command = tryParseCommand(message)
+        if (command != null) {
+          this.listeners.onCommand.forEach(listener => listener(command))
+        }
       },
       onConnect: () => {
         this.listeners.onConnect.forEach(listener => listener())
@@ -21,9 +28,10 @@ class ApiClient {
     }
   }
 
-  addListeners({ onMessage, onConnect, onDisconnect }) {
+  addListeners({ onMessage, onConnect, onCommand, onDisconnect }) {
     onMessage && this.listeners.onMessage.push(onMessage)
     onConnect && this.listeners.onConnect.push(onConnect)
+    onCommand && this.listeners.onCommand.push(onCommand)
     onDisconnect && this.listeners.onDisconnect.push(onDisconnect)
   }
 
