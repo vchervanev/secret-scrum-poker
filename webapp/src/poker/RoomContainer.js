@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import apiClient from '../ApiClient'
+import { apiClient } from '../api'
 import Room from './Room'
 
 class RoomContainer extends Component {
@@ -16,6 +16,16 @@ class RoomContainer extends Component {
     this.props.stateHandlers.connecting()
     this.client.connect()
   }
+  create = () => {
+    this.client.command('create')
+    this.props.stateHandlers.joining()
+  }
+
+  join = roomID => {
+    this.client.command('join', { roomID: roomID })
+    this.props.stateHandlers.joining()
+  }
+
   onWebSocketConnection = () => {
     this.props.stateHandlers.connect()
   }
@@ -27,6 +37,8 @@ class RoomContainer extends Component {
       state: this.props.state,
       actions: {
         connect: this.connect,
+        create: this.create,
+        join: this.join,
       },
     }
     return <Room {...props} />

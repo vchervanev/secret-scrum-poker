@@ -2,9 +2,9 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import RoomContainer from './RoomContainer'
-import apiClient from '../ApiClient'
+import { apiClient } from '../api'
 
-jest.mock('../ApiClient')
+jest.mock('../api')
 apiClient.mockImplementation(() => {
   return { addListeners: jest.fn() }
 })
@@ -23,8 +23,13 @@ describe('RoomContainer', () => {
 
     it('passes props into Room', () => {
       const wrapper = shallowRender({ state: { mode: 'test' } })
+      const instance = wrapper.instance()
       const expectedRoomProps = {
-        actions: { connect: wrapper.instance().connect },
+        actions: {
+          connect: instance.connect,
+          create: instance.create,
+          join: instance.join,
+        },
         state: { mode: 'test' },
       }
       expect(wrapper.find('Room').props()).toEqual(expectedRoomProps)
@@ -53,6 +58,56 @@ describe('RoomContainer', () => {
 
     it('changes state to Connecting', () => {
       expect(stateConnectingMock).toBeCalled()
+    })
+  })
+
+  describe('create', () => {
+    let apiClientCommandMock
+    let stateJoiningMock
+
+    beforeEach(() => {
+      apiClientCommandMock = jest.fn()
+      apiClient.mockImplementation(() => {
+        return { addListeners: jest.fn(), command: apiClientCommandMock }
+      })
+
+      stateJoiningMock = jest.fn()
+      const wrapper = shallowRender({ stateHandlers: { joining: stateJoiningMock } })
+
+      wrapper.instance().create()
+    })
+
+    it('calls ApiClient.command("create")', () => {
+      expect(apiClientCommandMock).toBeCalledWith('create')
+    })
+
+    it('changes state to Joining', () => {
+      expect(stateJoiningMock).toBeCalled()
+    })
+  })
+
+  describe('join', () => {
+    let apiClientCommandMock
+    let stateJoiningMock
+
+    beforeEach(() => {
+      apiClientCommandMock = jest.fn()
+      apiClient.mockImplementation(() => {
+        return { addListeners: jest.fn(), command: apiClientCommandMock }
+      })
+
+      stateJoiningMock = jest.fn()
+      const wrapper = shallowRender({ stateHandlers: { joining: stateJoiningMock } })
+
+      wrapper.instance().join('123')
+    })
+
+    it('calls ApiClient.command("join")', () => {
+      expect(apiClientCommandMock).toBeCalledWith('join', { roomID: '123' })
+    })
+
+    it('changes state to Joining', () => {
+      expect(stateJoiningMock).toBeCalled()
     })
   })
 

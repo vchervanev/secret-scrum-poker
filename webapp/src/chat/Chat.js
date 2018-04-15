@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Subscribe } from 'unstated'
 
 import { ChatStateContainer } from './StateContainer'
-import apiClient from '../ApiClient'
+import { apiClient } from '../api'
 
 const Message = ({ text }) => <div>{text}</div>
 
@@ -30,7 +30,7 @@ class NewMessageEditor extends React.Component {
 class Chat extends React.Component {
   constructor() {
     super()
-    apiClient().addListeners({onMessage: this.onMessage})
+    apiClient().addListeners({ onMessage: this.onMessage })
   }
 
   onMessage = ({ data }) => {

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { MODE } from './RoomState'
+import { MODE, Entrance } from '.'
 
 const Reconnect = ({ connect }) => (
   <div>
@@ -8,18 +8,24 @@ const Reconnect = ({ connect }) => (
   </div>
 )
 const Loading = () => <div>Loading...</div>
-const Entrance = () => <div>Create or Join</div>
+const PointsGame = () => <div>Not implemented</div>
 
-const Room = ({ actions: { connect }, state: { mode } }) => {
-  if (mode === MODE.OFFLINE) {
-    return <Reconnect connect={connect} />
-  } else if (mode === MODE.CONNECTING) {
-    return <Loading />
-  } else if (mode === MODE.ENTER) {
-    return <Entrance />
-  } else {
-    return <div>Not implemented</div>
+const Room = ({ actions: { connect, create, join }, state: { mode } }) => {
+  const roomComponentSelector = {
+    [MODE.OFFLINE]: <Reconnect connect={connect} />,
+    [MODE.CONNECTING]: <Loading />,
+    [MODE.ONLINE]: <Entrance create={create} join={join} />,
+    [MODE.JOINING]: <Loading />,
+    [MODE.PLAY]: <PointsGame />,
   }
+  const component = roomComponentSelector[mode]
+
+  if (component === undefined) {
+    throw new Error(`Invalid mode ${mode}`)
+  }
+
+  return component
 }
 
 export default Room
+export { Reconnect, Loading, PointsGame }

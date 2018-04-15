@@ -26,7 +26,6 @@ describe('instance', () => {
     expect(apiClient()).toEqual(apiClient())
   })
 
-
   it('disconnected by default', () => {
     expect(apiClient().isConnected()).toBeFalsy()
   })
@@ -66,6 +65,20 @@ describe('events', () => {
 
     expect(spy).toHaveBeenCalledWith('message')
   })
+
+  describe('commands', () => {
+    it('calls commands listener', () => {
+      const spy = jest.fn()
+      const command = { command: 'cmd-name', attrs: { value: 1 } }
+      const json = JSON.stringify(command)
+
+      const client = apiClient()
+      client.addListeners({ onCommand: spy })
+      client.ws.listeners.message(json)
+
+      expect(spy).toHaveBeenCalledWith(command)
+    })
+  })
 })
 
 describe('methods', () => {
@@ -77,7 +90,7 @@ describe('methods', () => {
 
   it('connects', () => {
     expect(client.isConnected()).toBeTruthy()
-    })
+  })
 
   it('uses WebSocket URL', () => {
     expect(client.ws.url).toEqual(webSocketURL)
@@ -86,5 +99,12 @@ describe('methods', () => {
   it('sends message', () => {
     client.send('message')
     expect(client.ws.sentMessages).toEqual(['message'])
+  })
+
+  it('sends commands', () => {
+    const expectedCommand = { command: 'test-command', attrs: { value: 1 } }
+    client.command('test-command', { value: 1 })
+
+    expect(client.ws.sentMessages).toEqual([JSON.stringify(expectedCommand)])
   })
 })
